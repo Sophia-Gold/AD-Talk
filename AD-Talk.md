@@ -42,7 +42,7 @@ If fact, to some degree it motivated the invention of computers and the field of
 # The Operational Calculus
 
 You may have seen some of these:
-[](img/operators.png)
+![](img/operators.png)
 
 Since Leibniz, mathematicians were developing notations for calculus using operators by overloading mathematical symbols much as we do with operators in C++ and Haskell, for example in the Power Serious example we just saw. 
 
@@ -63,7 +63,7 @@ Specific cases of the operational calculus were later formalized in abstract alg
 
 Differentiation was a motivating example for computation from the very beginning
 
-[](img/BabbageDifferenceEngine.jpg)
+![](img/DifferenceEngine.jpg)
 
 In 1822, 15 years before he introduced his general purpose Analytical Engine, Charles Babbage described the __Difference Engine__ ...sparking interest in analogue computers for the purpose of calculating derivatives that would last well into the 20th century. 
 
@@ -101,7 +101,7 @@ In 1958 John McCarthy based LISP on Church's untyped lambda caclulus.
 
 The first known example of AD in Lisp was published in 1970 by Fred McBride (father of Conor McBride) in his dissertation _Computer Aided Manipulation of Symbols_, as an example of a dialect that added pattern matching:
 
-[](img/FredMcBride.jpg)
+![](img/FredMcBride.jpg)
 
 ---
 
@@ -109,7 +109,7 @@ The first known example of AD in Lisp was published in 1970 by Fred McBride (fat
 
 The isomorphism of differentiation with (lazy) list processing was given by Dusko Pavlovic and Martín Escardó in _Calculus in Coinductive Form_ (1998). Among other examples, they give the commuting square for the infinite Taylor series we saw earlier:
 
-[](img/FredMcBride.jpg)
+![](img/CommutingSquare.png)
 
 Deep magic explained!
 
@@ -158,7 +158,8 @@ Around the time he wrote the prime sieve program, McIlroy visited Oxford. It's t
 
 In the 1980s Bell Lab's Rob Pike developed a series of languages based on Hoare's CSP model of concurrency, leading up to Google's Go language. One of these was based on the Squeak dialect of Smalltalk and therefore called Newsqueak, which provided the medium for McIlroy's first attempt at implementing Kahn and McQueen's elusive coroutine-based AD program, which he published in the paper _Squinting at Power Series_ (1989).
 
-[](Squinting.png)
+![](img/Squinting.jpg)
+
 McIlroy's function computing the Cauchy product using recursively generated channels
 
 ---
