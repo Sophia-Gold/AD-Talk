@@ -356,7 +356,8 @@ Using the examples of minimax of a saddle curve and a particle simulation using 
 
 ![](img/Benchmarks.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _Efficient Implementation of a Higher-Order Language with Built-In AD_ (2016)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _Efficient Implementation of a Higher-Order Language with Built-In AD_ (2016)
+
 ---
 
 # The AD Renaissance: Machine Learning
