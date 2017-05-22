@@ -312,7 +312,7 @@ Already presented at Papers We Love (watch it on YouTube).
 
 # Derivatives of Types
 
-![](img/OneHoleContext.jpg)
+![](img/OneHoleContexts.png)
 
 Other papers on type-level derivatives:
 - _∂ for Data: Differentiating Data Structures_ (2005) McBride, Thorsten Altenkirch (co-author of the HoTT book), et al
