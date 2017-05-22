@@ -294,7 +294,7 @@ Went on to publish numerous others. A small sample:
 - _Lazy Multivariate Higher-Order Forward-Mode AD_ (2007)
 - _Nesting Forward-Mode AD in a Functional Framework_ (2007)
 - _Reverse-Mode AD in a Functional Framework: Lambda the Ultimate Backpropagator_ (2008)
-- _Efficient Implementation of a Higher-Order Language with Built-In AD_ (2016) 
+- _Putting the Automatic Back into AD_ (2008)
 
 ---
 
@@ -328,13 +328,55 @@ Differential geometry is also being formalized in category theory as R-modules, 
 
 Thomas Ehrhard and Laurent Regnier in the _The Differential Lambda-Calculus_ (2001)
 
+Extends McBride's work, but refining the notion of "regular types" to variables in the lambda calculus using Jean-Yves Girard's linear logic (similar to "session types" in functional programming) and in particular a construction using convex topological vector spaces referred to as "Köthe space semantics."
+
+Crudely put, it extends the Taylor formula (computing derivatives by composing Taylor series) to bound variables in lambda terms. One can also think of the arguments to curried functions in typed lambda calculi (i.e. Haskell type signatures) as having a correspondence with terms in Taylor series. Bound variables correspond to the concept of "linearity" whereas free variables correspond to "bilinearity," which allow for application of the chain rule in a manner similar to encoding of Church numerals by repeated application of the successor function.
+
+Partial derivatives are represented as substitutions over different bound variables. A _purely_ differential lambda calculus, i.e. one with only bound variables, means that all derivatives except for that of zero are partial. The fact that normally only the head term in functions is linear, or an ordinary derivative and therefore capable of composition, really brings out the isomorphism of the lambda calculus in general with list processing demonstrated by Pavlovic and Escardo.
+
+This means the reduction rules for lambda calculus really do correspond to the differential calculus: in both, partials are function bodies that relate to only one argument in a multi-ariadic function. The chain rule here is literally represented as beta-reduction.
+
+Church's dream realized!
+
 ---
 
 # VLAD: a purely-functional language with built-in AD operators
 
+Differential lambda calculus was given a practical implementation with Siskind & Pearlmutter's Stalingrad interpreter for a dialect of Lisp called VLAD. This finally solved the problem of perturbation confusion by providing a language-based technique of functional AD with no need for metaprogramming.
+
+It also allows differentiation to commute as it does using symbolic methods (Schwarz lemma) allowing arbitrary application of the chain rule, finally obliterating the distinction in technique required between "modes" of AD.
+
+First-class AD operators allow Vlad to eliminate reflection using static single assignment (SSA) in both forward and reverse mode. The result is a ~3-5x speedup vs. even Fortran-based source transformation, ~50x vs. C++ template-based approaches (FADBAD++), and ~250x compared to the best Haskell libaries.
 
 ---
 
-# The AD Renaissance
+# Benchmarks
+
+Using the examples of minimax of a saddle curve and a particle simulation using Euler's equations:
+
+![](img/Benchmarks.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _Efficient Implementation of a Higher-Order Language with Built-In AD_ (2016)
+---
+
+# The AD Renaissance: Machine Learning
+
+Good news: AD is becoming popular again for practical use!
+
+Why? Primarily for machine learning: backpropagation == the chain rule.
+- Autograd for NumPy has been integrated with Torch
+- Google's Ceres Solver (C++ numerical programming tool for ML) includes an AD option
+
+More cutting edge, in _Learning to Transduce with Unbounded Memory_ DeepMind demonstrated that training an LSTM using "differentiable data structures" (stacks, queues, and dequeues of matrices with AD built into them) allowed them to achieve the same results in one pass as in four using gradient descent through approximation. They've since moved on to designing "differentiable neural computers."
+
+---
+
+# The AD Renaissance: Modelling
+
+There's also interest in quantitative finance and other fields that require modelling stochastic processes that can benefit from results at floating point precision:
+- _Smoking Adjoints: Fast Monte Carlo Greeks_ (2004) Giles & Glasserman
+- _Adjoints and Automatic (Algorithmic) Differentiation in Computational Finance_ (2011) Cristian Homescu
+
+Outside of finance, the Stan probabilistic programming language developed at Columbia University (largely for social science research) includes an AD implementation in C++.
 
 ---
