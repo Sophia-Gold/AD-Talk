@@ -13,7 +13,7 @@
 
 What it's not:
 - Numerical approximation (lagrangian interpolation, etc.)
-  - Fast, but inexact (e.g. Runge's phenomenon)
+  - _Relatively_ fast, but inexact (e.g. Runge's phenomenon).
 - Symbolic integration (computer algebra systems, e.g. MATLAB)
   - Exact, but slow and _ugly_ ...who enjoyed high school calculus?
 
@@ -23,8 +23,19 @@ What it's not:
 
 But what is _it?_
 
-&nbsp;&nbsp;&nbsp;&nbsp; An example...
- 
+An example in Haskell:
+
+```λ> let sin' = int cos'
+λ> let cos' = 1 - int sin'
+λ> take 10 $ sin'
+[0 % 1,1 % 1,0 % 1,(-1) % 6,0 % 1,1 % 120,0 % 1,(-1) % 5040,0 % 1,1 % 362880]
+λ> take 10 $ cos'
+[1 % 1,0 % 1,(-1) % 2,0 % 1,1 % 24,0 % 1,(-1) % 720,0 % 1,1 % 40320,0 % 1]
+```
+The first ten terms for the Taylor series of sine and cosine.
+
+Exact _and_ fast! Plus no ugly subscripts :)
+
 ---
 
 # Why does this even work?
@@ -87,9 +98,11 @@ Until...
 
 # Imperative AD
 
-The first literature on AD was by Robert Edwin Wengert in _A Simple Automatic Derivative Evaluation Program_ (1964), which is one of many claims to the first dissertation ever written in the field of computer science. 
+The first literature on AD was by Robert Edwin Wengert in _A Simple Automatic Derivative Evaluation Program_ (1964), one of many claims to the first dissertation ever written in the field of computer science. 
 
-The technique appeared to be popular in the numerical computing mainstream for some time before being largely abandoned in favor of "numerical methods" (approximation).
+The technique was popular in the numerical computing mainstream for some time:
+- Many AD tools, particularly in Fortran and C++, are compiled by Argonne National Laboratory: http://www.autodiff.org/. 
+- However AD was largely abandoned in favor of "numerical methods," particularly with the advent of GPUs for fast matrix processing.
 
 Then functional programming took over...
 
@@ -209,5 +222,119 @@ Karczmarczuk's _Generating Power of Lazy Semantics_ (1997) became a seminal pape
 - _Functional Differentiation of Computer Programs_ (2000)
 - _Adjoint Codes in Functional Framework_ (2000)
 - _Lazy Time Reversal, and Automatic Differentiation_ (2002)
+
+---
+
+# Modern AD Research: Modes
+
+Forward mode, reverse (adjoint) mode, or mixed mode?
+- Forward
+  - Application of the chain rule goes to left to right
+  - Or inside to outside when thought of in terms of functional composition
+  - In other words, what you learned in high school calculus
+  - Generally considering the most straightforward to implement
+- Reverse mode:
+  - Application of the chain rules goes right to left
+  - Or outside to inside in terms of functional composition
+  - For this last reasong, obviously much less intuitive and more difficult to implement
+  - However, extremely useful for certain applications (machine learning...)
+- Mixed mode:
+  - What is sounds like: a combination of both directions
+
+---
+
+# Modern AD Research: Techniques
+
+Derivatives as data
+- Either returning the value of a derivative...
+- Or the derivative itself represented as a value (as we saw with McIlroy's Haskell version)
+- Generally considered the most primitive method and only useful for power series...
+- ...however, this assumes the inability to compose functions once they're output as data.
+- McIlroy shows us this can be done by converting functions to Horner Form ("Horner's rule" in American English)
+
+---
+
+# Modern AD Research: Techniques
+
+Derivatives as functions through operator overloading
+- Jerzy Karczmarczuk's method, also imperative implementations (i.e. FADBAD++)
+- Later implemented by Jerry Sussman in Scheme
+- Also Conal Elliot in Haskell: _Beautiful Differentiation_ (2009)
+- Upside vs. data-driven approach: allows use of built-in functional composition
+- Downside: introduces problem of confusing levels of derivatives
+  - Even overloaded arithmetic operators cannot be applied to derivatives at multiple levels. They mean different things!
+  - Referred to as "perturbation confusion" of "confusion of infinitesimals" (more on this in a second...)
+  - Make reverse mode very difficult, lots of "lifting" in Haskell
+  - Current dominant Haskell package, Edward Kmett's AD library, started as a response to a Stack Overflow question about reverse mode in Haskell
+  
+---
+
+# Modern AD Research: Techniques
+
+Metaprogramming
+  - Generating derivative functions at compile time solves the problems presented by operator overloading
+  - Used in several extremely fast Fortran packages
+  - DiffSharp: 
+    - Source transformation using the F# quotations evaluator
+    - Benefits from incremental compilation using .NET's LINQ framework
+    
+---
+
+# Siskind and Pearlmutter
+
+Most prolific AD researchers by far. 
+
+Siskind teaches at Purdue. Pearlmutter currently runs the Brain and Computation Lab at the National University of Ireland Maynooth.
+
+Mainly working in Scheme and Haskell, but also developed DiffSharp and a dialect of Lisp with AD as primitives. 
+
+First to point out problems with the operator overloading approach in the classic paper _Perturbation Confusion and Referential Transparency: Correct Functional Implementation of Forward-Mode AD_ (2005).
+
+Went on to publish numerous others. A small sample:
+- _Lazy Multivariate Higher-Order Forward-Mode AD_ (2007)
+- _Nesting Forward-Mode AD in a Functional Framework_ (2007)
+- _Reverse-Mode AD in a Functional Framework: Lambda the Ultimate Backpropagator_ (2008)
+- _Efficient Implementation of a Higher-Order Language with Built-In AD_ (2016) 
+
+---
+
+# Derivatives of Types
+
+Seminal paper is Conor McBride's _The Derivative of a Regular Type is its Type of One-Hole Contexts_ (2001). 
+
+Already presented at Papers We Love (watch it on YouTube).
+
+> "One observation does, however, seem relevant: the syntactic operation of differentiating an expression with respect to zippers generates an approximation to the change in value of that expression by summing the contributions generated by varying each of the zipper’s in the expression in turn. The derivative is thus the sum of terms corresponding to each one-hole context for a zipper in the expression. Perhaps the key to the connection can be found by focusing not on what is being infinitesimally varied, but on what, for the sake of a linear approximation to the curve, is being kept the same."
+
+...which makes sense since AD is largely distinguished by exact calculation defined without deference to theoretical variance: ie. infinitesimals, perturbation, etc.
+
+---
+
+# Derivatives of Types
+
+![](img/OneHoleContext.jpg)
+
+Other papers on type-level derivatives:
+- _∂ for Data: Differentiating Data Structures_ (2005) McBride, Thorsten Altenkirch (co-author of the HoTT book), et al
+- _The Two Dualities of Computation: Negative and Fractional Types_ (2012) Roshan James & Amr Sabry
+
+To specify the _type_ of containers for data as having structure that is inherently differentiable requires dependent types, i.e. a specification of the relationship between the parametric types of the containers and the data they hold. Interestingly, the concept of universes in dependent type theory is isomorphic to that of the functional approach to differentiation in that operators have different meanings on different levels.
+
+Differential geometry is also being formalized in category theory as R-modules, which turn out to correspond to types in the simply typed version of the differential lambda calculus...
+
+---
+
+# Differential Lambda Calculus
+
+Thomas Ehrhard and Laurent Regnier in the _The Differential Lambda-Calculus_ (2001)
+
+---
+
+# VLAD: a purely-functional language with built-in AD operators
+
+
+---
+
+# The AD Renaissance
 
 ---
