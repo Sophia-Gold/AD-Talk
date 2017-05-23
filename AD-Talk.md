@@ -8,6 +8,7 @@
 
 ## May 24th, 2017
 ---
+<!-- page_number: true -->
 
 # What is Automatic Differentiation?
 
