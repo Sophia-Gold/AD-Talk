@@ -17,7 +17,7 @@
 What it's not:
 - Numeric approximation (Lagrangian interpolation, etc.)
   - _Relatively_ fast, but inexact (e.g. Runge's phenomenon).
-- Symbolic integration (computer algebra systems, e.g. MATLAB, Maple, Mathematica)
+- Symbolic differentiation (computer algebra systems, e.g. MATLAB, Maple, Mathematica)
   - Exact, but slow and _ugly_ ...who enjoyed high school calculus?
 
 ---
@@ -73,7 +73,7 @@ During the late 19th century this became known as the __operational calculus__ a
 
 Differentiation was a motivating example for computation from the very beginning:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](img/DifferenceEngine.jpg)
-In 1822, 15 years before the general purpose Analytical Engine, Charles Babbage described the __Difference Engine__ sparking interest in analogue computers for the purpose of calculating derivatives that would last well into the 20th century.
+In 1822 Charles Babbage described the __Difference Engine__ sparking interest in analogue computers for the purpose of calculating derivatives that would last well into the 20th century.
 
 ---
 
@@ -150,7 +150,6 @@ Then functional programming took over...
 
 ## Lazy Evaluation
 
-</br>
 AD is particularly elegantly expressed using stream processing, a concept first formalized by Peter Landin in _Correspondence Between ALGOL 60 and Church's Lambda-notation_ (1965).
 
 This started a whole field of research into non-strict, or lazy, evaluation methods. A seminal paper that implemented a lazy version of McCarthy's Lisp interpreter was Daniel Friedman and David Wise's _CONS Should Not Evaluate Its Arguments_ (1975). 
@@ -410,7 +409,7 @@ Other papers on type-level derivatives:
 Thomas Ehrhard and Laurent Regnier in the _The Differential Lambda-Calculus_ (2001)
 
 Builds on  McBride's work, but refining the notion of "regular types" to variables in the lambda calculus using linear logic:
-- Extends the Taylor formula (computing derivatives by composing Taylor series) to bound variables in lambda terms
+- Extends the Taylor formula to bound variables in lambda terms
 - One can also think of the arguments to curried functions in typed lambda calculi as having a correspondence with terms in Taylor series.
 
 ---
