@@ -72,8 +72,7 @@ During the late 19th century this became known as the __operational calculus__ a
 ## Computation
 
 Differentiation was a motivating example for computation from the very beginning:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](img/DifferenceEngine.jpg)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](img/DifferenceEngine.jpg)
 In 1822, 15 years before the general purpose Analytical Engine, Charles Babbage described the __Difference Engine__ sparking interest in analogue computers for the purpose of calculating derivatives that would last well into the 20th century.
 
 ---
@@ -102,6 +101,32 @@ Until...
 
 ---
 
+## LISP
+
+In 1958 John McCarthy based LISP on Church's untyped lambda caclulus.
+
+When demonstrating it to an informal audience at MIT in 1959 he built up from basic list processing to higher order functions in the course of an hour.
+
+The culmination of McCarthy's lecture? A simple program for univariate differentiation.
+
+---
+
+## LISP
+
+In 1970 Fred McBride (father of Conor McBride) added pattern matching to a dialect of Lisp for his dissertation, _Computer Aided Manipulation of Symbols_. Like McCarthy, he used it to demonstrate a short program for automatic differentiation:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](img/FredMcBride.jpg)
+
+---
+
+The isomorphism of differentiation with (lazy) list processing was given by Dusko Pavlovic and Martín Escardó in _Calculus in Coinductive Form_ (1998). 
+
+Among other examples, they give the commuting square for the infinite Taylor series we saw earlier:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](img/CommutingSquare.png)
+
+---
+
 ## Imperative AD
 
 </br>
@@ -120,22 +145,6 @@ The technique was popular in the numerical computing mainstream for some time:
 - However AD was largely abandoned in favor of "numerical methods," particularly with the advent of GPUs for fast matrix processing.
 
 Then functional programming took over...
-
----
-
-## LISP
-
-The first known example of AD in Lisp was published in 1970 by Fred McBride (father of Conor McBride) in  _Computer Aided Manipulation of Symbols_:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](img/FredMcBride.jpg)
-
----
-
-The isomorphism of differentiation with (lazy) list processing was given by Dusko Pavlovic and Martín Escardó in _Calculus in Coinductive Form_ (1998). 
-
-Among other examples, they give the commuting square for the infinite Taylor series we saw earlier:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](img/CommutingSquare.png)
 
 ---
 
@@ -177,11 +186,19 @@ Sussman would later release a more general AD implementation as part of his SCMU
 
 ## Unix
 
-Kahn and MacQueen's paper also caught the eye of Doug McIlroy who had already programmed one of the earliest implementations of the prime sieve using coroutines in 1968.
+Kahn and MacQueen's paper also caught the eye of Doug McIlroy, then the head of the Computing Techniques Research Department at Bell Labs that birthed Unix and C.
+
+McIlroy was present at John McCarthy's original AD demo and had himself programmed one of the earliest implementations of the prime sieve using coroutines in 1968.
+
+---
+
+## Unix
 
 McIlroy is best known for adding pipelines to Unix, which enabled the "the Unix philosophy" of composing many single-purpose programs through a common interface: text-streams.
 
-Standard I/O is fundamentally lazy&mdash;it inputs and outputs only as much as the program needs&mdash;and some in the functional programming world have pointed out the similarity between Unix pipes and the IO monad.
+Standard I/O is fundamentally lazy, it inputs and outputs only as much as the program needs.
+
+Oleg Kiselyov even pointed out the similarity between Unix pipes and the IO monad.
 
 ---
 
@@ -344,7 +361,7 @@ Derivative functions are generated using compile-time metaprogramming:
 
 ## Siskind and Pearlmutter
 
-Jeffrey Siskand and Barak Pearlmutter: 
+Jeffrey Siskind and Barak Pearlmutter: 
 - By far the most prolific AD researchers. 
 - Mainly working in Scheme and Haskell, but also DiffSharp and a Lisp dialect AD as primitives. 
 - First to point out problems with the operator overloading approach in the classic paper _Perturbation Confusion and Referential Transparency: Correct Functional Implementation of Forward-Mode AD_ (2005)
